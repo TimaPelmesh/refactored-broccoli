@@ -664,4 +664,22 @@ main {
 #keyboard-container.hidden,
 .response-buttons.hidden {
     display: none !important;
+}
+
+/* Стили для кастомного курсора */
+.cursor {
+    /* Стили отключены для удаления эффекта кружка курсора */
+    /*
+    position: fixed;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #0f0;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    z-index: 9999;
+    mix-blend-mode: difference;
+    transition: transform 0.1s, width 0.1s, height 0.1s;
+    */
+    display: none; /* Скрываем элемент полностью */
 } 

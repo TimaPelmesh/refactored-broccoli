@@ -98,6 +98,8 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Добавляем эффект курсора мыши
     function addCustomCursor() {
+        // Функция отключена для удаления эффекта кружка курсора
+        /*
         const cursor = document.createElement('div');
         cursor.classList.add('cursor');
         document.body.appendChild(cursor);
@@ -106,9 +108,10 @@ document.addEventListener('DOMContentLoaded', () => {
             cursor.style.left = `${e.clientX}px`;
             cursor.style.top = `${e.clientY}px`;
         });
+        */
     }
     
-    addCustomCursor();
+    // addCustomCursor(); // Отключено для удаления эффекта кружка курсора
     
     // Добавляем эффект глюка на заголовок при клике
     const title = document.querySelector('h1');
