@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Хакерский Веб-Квест - Миссия</title>
+    <link rel="stylesheet" href="quest.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-left">
+                <a href="index.html" class="back-button"><i class="fas fa-chevron-left"></i> ВЕРНУТЬСЯ</a>
+            </div>
+            <div class="header-center">
+                <h1>КИБЕР<span class="accent">МИССИЯ</span> v1.0</h1>
+            </div>
+            <div class="header-right">
+                <div class="time-display" id="current-time">00:00:00</div>
+            </div>
+        </header>
+        
+        <main>
+            <div class="terminal">
+                <div class="terminal-header">
+                    <div class="terminal-dots">
+                        <span class="dot"></span>
+                        <span class="dot"></span>
+                        <span class="dot"></span>
+                    </div>
+                    <div class="terminal-title">SECURE CONNECTION - ENCRYPTED CHAT</div>
+                    <div class="terminal-controls">
+                        <i class="fas fa-minus"></i>
+                        <i class="fas fa-expand"></i>
+                        <i class="fas fa-times"></i>
+                    </div>
+                </div>
+                
+                <div class="terminal-body">
+                    <div class="chat-container" id="chat-container">
+                        <!-- Сообщения будут добавляться через JavaScript -->
+                    </div>
+                    
+                    <div id="response-buttons" class="response-buttons hidden">
+                        <!-- Кнопки ответов будут добавляться через JavaScript -->
+                    </div>
+                    
+                    <div class="input-container">
+                        <input type="text" id="user-input" placeholder="Введите сообщение..." autocomplete="off">
+                        <button id="send-button">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                    
+                    <div id="keyboard-container" class="hidden">
+                        <!-- Элементы клавиатуры будут добавляться через JavaScript -->
+                    </div>
+                </div>
+            </div>
+            
+            <div class="side-panel">
+                <div class="agent-profile">
+                    <div class="agent-avatar">
+                        <img src="golubini.gpej" alt="Spijuniro Golubiro" id="agent-avatar">
+                    </div>
+                    <div class="agent-info">
+                        <h3>Spijuniro Golubiro</h3>
+                        <p class="agent-status online">В сети</p>
+                    </div>
+                </div>
+                
+                <div class="progress-container">
+                    <h3>ПРОГРЕСС МИССИИ</h3>
+                    <div class="progress-bar">
+                        <div class="progress" id="mission-progress"></div>
+                    </div>
+                    <p class="progress-text">0%</p>
+                </div>
+                
+                <div class="hints-container">
+                    <h3>ПОДСКАЗКИ</h3>
+                    <div class="hint-list" id="hint-list">
+                        <p class="no-hints">Подсказки появятся по мере прохождения квеста</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+        
+        <div class="terminal-effects">
+            <div class="overlay"></div>
+        </div>
+    </div>
+    
+    <script src="quest.js"></script>
+</body>
+</html> 
