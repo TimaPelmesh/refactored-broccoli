@@ -1,0 +1,116 @@
+/* 
+ * no-scanline.css
+ * Этот файл отключает различные эффекты анимации сканирующих линий на страницах
+ */
+
+/* Отключение эффектов сканирующей линии */
+body::before,
+body::after,
+main::before,
+main::after,
+.terminal::before,
+.terminal::after,
+.terminal-body::before,
+.terminal-body::after,
+.chat-container::before,
+.chat-container::after,
+.desktop::before,
+.desktop::after,
+.glitch-effect,
+.scan-line,
+.scanline,
+.scan-line-effect,
+.tv-effect,
+.crt-effect,
+.flicker-effect,
+.screen-effect,
+.noise-effect {
+    display: none !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    animation: none !important;
+    background: none !important;
+    content: none !important;
+    text-shadow: none !important;
+    box-shadow: none !important;
+    filter: none !important;
+}
+
+/* Удаляем мерцающие тени с текста */
+h1, h2, h3, p, span, div {
+    text-shadow: none !important;
+}
+
+/* Отключение мерцания и glitch-анимаций */
+@keyframes glitch {
+    0%, 100% { transform: none; opacity: 1; }
+}
+
+@keyframes scan {
+    0%, 100% { transform: none; opacity: 0; }
+}
+
+@keyframes scanline {
+    0%, 100% { transform: none; opacity: 0; }
+}
+
+@keyframes flicker {
+    0%, 100% { opacity: 1; }
+}
+
+@keyframes noise {
+    0%, 100% { opacity: 0; }
+}
+
+/* Отключаем только эффекты сканирующих линий, а не все анимации */
+/* Это было слишком агрессивное правило, заменяем на более специфичное */
+/* * {
+    animation-play-state: paused !important;
+} */
+
+/* Не отключаем основные анимации для взаимодействия с пользователем */
+.typing-indicator span,
+.message,
+.response-button,
+.progress-bar,
+.progress,
+.hack-btn,
+.fade-in,
+.button:hover,
+.toggle-button:hover,
+input:focus,
+a:hover {
+    animation-play-state: running !important;
+    transition: all 0.3s ease !important;
+}
+
+/* Убедимся, что линии сканирования созданные через JavaScript также не отображаются */
+.scan-line-js,
+.scanline-js,
+.glitch-js,
+.flicker-js,
+.tv-effect-js,
+.crt-js,
+[class*="scan"],
+[class*="glitch"],
+[class*="flicker"],
+[class*="crt"],
+[class*="tv-effect"] {
+    display: none !important;
+    opacity: 0 !important;
+}
+
+/* Уменьшаем все эффекты размытия, которые могут создавать проблемы */
+* {
+    filter: none !important;
+}
+
+/* Устанавливаем стабильные цвета и фоны */
+.terminal-body, 
+.chat-container, 
+.terminal-window-content,
+code, 
+pre {
+    background-color: var(--terminal-bg) !important;
+    color: var(--text-color) !important;
+} 
