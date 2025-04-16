@@ -317,473 +317,552 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Проверка ответа пользователя
     function checkUserResponse(response) {
-        // Предотвращаем множественную обработку одного и того же ответа
-        if (isProcessingResponse) {
-            console.log("Обработка предыдущего ответа еще не завершена");
-            return;
-        }
-        
+        if (isProcessingResponse) return; // Предотвращаем множественную обработку
         isProcessingResponse = true;
+        
         console.log("Обработка ответа: ", response, "Текущий шаг:", currentStep);
         
         // Приведение ответа пользователя к нижнему регистру для удобства сравнения
         const userResponse = response.toLowerCase();
         
-        // Если мы еще в начале квеста, проверяем готовность пользователя
-        if (currentStep === 0) {
-            const readyResponses = ["да", "конечно", "готов", "давай", "начнем", "я готов", "поехали", "вперед", "ок", "yes"];
-            
-            if (readyResponses.some(answer => userResponse.includes(answer))) {
-                // Пользователь готов, продолжаем квест
-                currentStep = 1;
+        // Проверяем конкретные шаги квеста и ответы пользователя
+        switch (currentStep) {
+            case 0:
+                const readyResponses = ["да", "конечно", "готов", "давай", "начнем", "я готов", "поехали", "вперед", "ок", "yes"];
                 
-                // Задержка перед следующим сообщением агента
-                setTimeout(() => {
-                    agentResponse("Отлично! Меня зовут Spijuniro Golubiro, я агент секретной службы голубиной почты.");
+                if (readyResponses.some(answer => userResponse.includes(answer))) {
+                    // Пользователь готов, продолжаем квест
+                    currentStep = 1;
                     
+                    // Задержка перед следующим сообщением агента
                     setTimeout(() => {
-                        agentResponse("Мне нужна твоя помощь в поисках пропавшего агента - Tralalelo Tralala.");
+                        agentResponse("Отлично! Меня зовут Spijuniro Golubiro, я агент секретной службы голубиной почты.");
                         
                         setTimeout(() => {
-                            agentResponse("Вот его фотография:", true);
+                            agentResponse("Мне нужна твоя помощь в поисках пропавшего агента - Tralalelo Tralala.");
                             
                             setTimeout(() => {
-                                agentResponse("Последний раз его видели на пляже... Затем его след теряется.");
-                                updateProgress(10);
+                                agentResponse("Вот его фотография:", true);
                                 
                                 setTimeout(() => {
-                                    showResponseButtons(['Кто мог его похитить?']);
-                                    isProcessingResponse = false;
-                                }, 2000);
-                            }, 3000);
+                                    agentResponse("Последний раз его видели на пляже... Затем его след теряется.");
+                                    updateProgress(10);
+                                    
+                                    setTimeout(() => {
+                                        showResponseButtons(['Кто мог его похитить?']);
+                                        isProcessingResponse = false;
+                                    }, 2000);
+                                }, 3000);
+                            }, 2000);
                         }, 2000);
-                    }, 2000);
-                }, 1000);
-            } else {
-                // Пользователь ответил что-то другое, просим ответить снова
-                agentResponse("Мне нужна твоя помощь. Ты готов начать миссию?");
-                setTimeout(() => {
-                    showResponseButtons(['Да, я готов']);
-                    isProcessingResponse = false;
-                }, 1000);
-            }
-        }
-        else if (currentStep === 1) {
-            currentStep = 2;
-            
-            setTimeout(() => {
-                agentResponse("Tralalelo был лучшим агентом в своем деле. Его навыки шифрования и дешифрования информации не имели равных.");
+                    }, 1000);
+                } else {
+                    // Пользователь ответил что-то другое, просим ответить снова
+                    agentResponse("Мне нужна твоя помощь. Ты готов начать миссию?");
+                    setTimeout(() => {
+                        showResponseButtons(['Да, я готов']);
+                        isProcessingResponse = false;
+                    }, 1000);
+                }
+                break;
+            case 1:
+                currentStep = 2;
                 
                 setTimeout(() => {
-                    agentResponse("Я подозреваю в его исчезновении своего давнего неприятеля - Bobritto bandito.");
-                    addHint("Bobritto bandito - известен своими кибератаками и похищением секретных данных");
+                    agentResponse("Tralalelo был лучшим агентом в своем деле. Его навыки шифрования и дешифрования информации не имели равных.");
                     
                     setTimeout(() => {
-                        agentResponse("Прежде чем допустить тебя к расследованию, я должен проверить твои знания в области информатики.");
-                        updateProgress(20);
+                        agentResponse("Я подозреваю в его исчезновении своего давнего неприятеля - Bobritto bandito.");
+                        addHint("Bobritto bandito - известен своими кибератаками и похищением секретных данных");
                         
                         setTimeout(() => {
-                            // Задаем первый вопрос
-                            agentResponse("Вопрос №1: Как называется система счисления с основанием 2?");
+                            agentResponse("Прежде чем допустить тебя к расследованию, я должен проверить твои знания в области информатики.");
+                            updateProgress(20);
                             
                             setTimeout(() => {
-                                showResponseButtons(['Двоичная', 'Восьмеричная', 'Десятичная', 'Шестнадцатеричная']);
+                                // Задаем первый вопрос
+                                agentResponse("Вопрос №1: Как называется система счисления с основанием 2?");
+                                
+                                setTimeout(() => {
+                                    showResponseButtons(['Двоичная', 'Восьмеричная', 'Десятичная', 'Шестнадцатеричная']);
+                                    isProcessingResponse = false;
+                                }, 1000);
+                            }, 2000);
+                        }, 3000);
+                    }, 3000);
+                }, 1000);
+                break;
+            case 2:
+                // Проверка ответа на первый вопрос
+                if (userResponse.includes("двоичная") || userResponse.includes("binary")) {
+                    currentStep = 3;
+                    updateProgress(30);
+                    
+                    setTimeout(() => {
+                        agentResponse("Правильно! Двоичная система счисления - основа компьютерных вычислений.");
+                        
+                        setTimeout(() => {
+                            // Задаем второй вопрос
+                            agentResponse("Вопрос №2: Какое устройство обрабатывает информацию в компьютере?");
+                            
+                            setTimeout(() => {
+                                showResponseButtons(['Процессор', 'Видеокарта', 'Оперативная память', 'Жесткий диск']);
                                 isProcessingResponse = false;
                             }, 1000);
                         }, 2000);
-                    }, 3000);
-                }, 3000);
-            }, 1000);
-        }
-        else if (currentStep === 2) {
-            // Проверка ответа на первый вопрос
-            if (userResponse.includes("двоичная") || userResponse.includes("binary")) {
-                currentStep = 3;
-                updateProgress(30);
-                
-                setTimeout(() => {
-                    agentResponse("Правильно! Двоичная система счисления - основа компьютерных вычислений.");
+                    }, 1000);
+                } else {
+                    setTimeout(() => {
+                        agentResponse("Это неверный ответ. Попробуй еще раз.");
+                        
+                        setTimeout(() => {
+                            showResponseButtons(['Двоичная', 'Восьмеричная', 'Десятичная', 'Шестнадцатеричная']);
+                            isProcessingResponse = false;
+                        }, 1000);
+                    }, 1000);
+                }
+                break;
+            case 3:
+                // Проверка ответа на второй вопрос
+                if (userResponse.includes("процессор") || userResponse.includes("cpu")) {
+                    currentStep = 4;
+                    updateProgress(40);
                     
                     setTimeout(() => {
-                        // Задаем второй вопрос
-                        agentResponse("Вопрос №2: Какое устройство обрабатывает информацию в компьютере?");
+                        agentResponse("Верно! Процессор - это 'мозг' компьютера.");
+                        
+                        setTimeout(() => {
+                            // Задаем третий вопрос
+                            agentResponse("Вопрос №3: Как называется вредоносная программа, которая блокирует доступ к файлам и требует выкуп?");
+                            
+                            setTimeout(() => {
+                                showResponseButtons(['Ransomware (Программа-вымогатель)', 'Вирус', 'Троян', 'Червь']);
+                                isProcessingResponse = false;
+                            }, 1000);
+                        }, 2000);
+                    }, 1000);
+                } else {
+                    setTimeout(() => {
+                        agentResponse("Нет, это неправильный ответ. Попробуй снова.");
                         
                         setTimeout(() => {
                             showResponseButtons(['Процессор', 'Видеокарта', 'Оперативная память', 'Жесткий диск']);
                             isProcessingResponse = false;
                         }, 1000);
-                    }, 2000);
-                }, 1000);
-            } else {
-                setTimeout(() => {
-                    agentResponse("Это неверный ответ. Попробуй еще раз.");
-                    
-                    setTimeout(() => {
-                        showResponseButtons(['Двоичная', 'Восьмеричная', 'Десятичная', 'Шестнадцатеричная']);
-                        isProcessingResponse = false;
                     }, 1000);
-                }, 1000);
-            }
-        }
-        else if (currentStep === 3) {
-            // Проверка ответа на второй вопрос
-            if (userResponse.includes("процессор") || userResponse.includes("cpu")) {
-                currentStep = 4;
-                updateProgress(40);
-                
-                setTimeout(() => {
-                    agentResponse("Верно! Процессор - это 'мозг' компьютера.");
+                }
+                break;
+            case 4:
+                // Проверка ответа на третий вопрос
+                if (userResponse.includes("ransomware") || userResponse.includes("вымогатель")) {
+                    currentStep = 5;
+                    updateProgress(50);
+                    
+                    agentResponse("Верно! Ransomware (программа-вымогатель) шифрует файлы пользователя и требует выкуп за ключ расшифровки.");
                     
                     setTimeout(() => {
-                        // Задаем третий вопрос
-                        agentResponse("Вопрос №3: Как называется вредоносная программа, которая блокирует доступ к файлам и требует выкуп?");
+                        // Создаем специальное сообщение агента с кнопкой
+                        const agentMessageWithButton = document.createElement('div');
+                        agentMessageWithButton.classList.add('message', 'agent-message');
+                        
+                        const messageHeader = document.createElement('div');
+                        messageHeader.classList.add('message-header');
+                        
+                        const messageSender = document.createElement('span');
+                        messageSender.classList.add('message-sender');
+                        messageSender.textContent = 'Spijuniro Golubiro';
+                        
+                        const messageTime = document.createElement('span');
+                        messageTime.classList.add('message-time');
+                        const now = new Date();
+                        messageTime.textContent = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
+                        
+                        messageHeader.appendChild(messageSender);
+                        messageHeader.appendChild(messageTime);
+                        
+                        const messageContent = document.createElement('div');
+                        messageContent.classList.add('message-content');
+                        
+                        const messageText = document.createElement('p');
+                        messageText.textContent = "Отлично! Я открою для тебя удаленный доступ к ноутбуку Tralalelo. Тебе нужно найти в терминале информацию о его местонахождении.";
+                        messageContent.appendChild(messageText);
+                        
+                        // Создаем красивую кнопку как часть сообщения агента
+                        const laptopButtonContainer = document.createElement('div');
+                        laptopButtonContainer.style.marginTop = "12px";
+                        
+                        const laptopButton = document.createElement('button');
+                        laptopButton.textContent = "ПЕРЕЙТИ К НОУТБУКУ";
+                        laptopButton.style.backgroundColor = "var(--accent-color)";
+                        laptopButton.style.color = "var(--background-color)";
+                        laptopButton.style.border = "none";
+                        laptopButton.style.padding = "10px 20px";
+                        laptopButton.style.borderRadius = "5px";
+                        laptopButton.style.fontFamily = "'JetBrains Mono', monospace";
+                        laptopButton.style.fontWeight = "bold";
+                        laptopButton.style.fontSize = "0.9rem";
+                        laptopButton.style.cursor = "pointer";
+                        laptopButton.style.boxShadow = "0 4px 8px rgba(0, 0, 0, 0.3)";
+                        laptopButton.style.transition = "all 0.3s ease";
+                        laptopButton.style.width = "100%";
+                        laptopButton.style.display = "flex";
+                        laptopButton.style.justifyContent = "center";
+                        laptopButton.style.alignItems = "center";
+                        
+                        // Добавляем эффект наведения через класс
+                        const style = document.createElement('style');
+                        style.textContent = `
+                            .laptop-access-button:hover {
+                                transform: translateY(-2px);
+                                box-shadow: 0 6px 12px rgba(0, 179, 255, 0.4);
+                                background-color: var(--button-hover) !important;
+                            }
+                        `;
+                        document.head.appendChild(style);
+                        
+                        laptopButton.classList.add('laptop-access-button');
+                        
+                        // Обработчик клика на кнопку
+                        laptopButton.addEventListener('click', function() {
+                            // Открываем ноутбук в новом окне
+                            let laptopWindow = window.open('laptop.html', '_blank', 'width=1024,height=768');
+                            setTimeout(() => {
+                                agentResponse("Твоя задача - раздобыть координаты подводной лаборатории и предоставить их мне.");
+                                enableKeyboard();
+                                isProcessingResponse = false;
+                            }, 1000);
+                        });
+                        
+                        laptopButtonContainer.appendChild(laptopButton);
+                        messageContent.appendChild(laptopButtonContainer);
+                        
+                        agentMessageWithButton.appendChild(messageHeader);
+                        agentMessageWithButton.appendChild(messageContent);
+                        
+                        // Добавляем в чат
+                        chatContainer.appendChild(agentMessageWithButton);
+                        chatContainer.scrollTop = chatContainer.scrollHeight;
+                        
+                        isProcessingResponse = false;
+                    }, 2000);
+                } else {
+                    setTimeout(() => {
+                        agentResponse("Это неверный ответ. Попробуй еще раз.");
                         
                         setTimeout(() => {
                             showResponseButtons(['Ransomware (Программа-вымогатель)', 'Вирус', 'Троян', 'Червь']);
                             isProcessingResponse = false;
                         }, 1000);
-                    }, 2000);
-                }, 1000);
-            } else {
-                setTimeout(() => {
-                    agentResponse("Нет, это неправильный ответ. Попробуй снова.");
-                    
-                    setTimeout(() => {
-                        showResponseButtons(['Процессор', 'Видеокарта', 'Оперативная память', 'Жесткий диск']);
-                        isProcessingResponse = false;
                     }, 1000);
-                }, 1000);
-            }
-        }
-        else if (currentStep === 4) {
-            // Проверка ответа на третий вопрос
-            if (userResponse.includes("ransomware") || userResponse.includes("вымогатель")) {
-                currentStep = 5;
-                updateProgress(50);
-                
-                agentResponse("Верно! Ransomware (программа-вымогатель) шифрует файлы пользователя и требует выкуп за ключ расшифровки.");
-                
-                setTimeout(() => {
-                    // Создаем специальное сообщение агента с кнопкой
-                    const agentMessageWithButton = document.createElement('div');
-                    agentMessageWithButton.classList.add('message', 'agent-message');
+                }
+                break;
+            case 5:
+                // Проверка координат или ключевых слов о местоположении
+                if (userResponse.includes("41°24'12.2\"n") || 
+                    userResponse.includes("2°10'26.5\"e") || 
+                    userResponse.includes("подводная") && userResponse.includes("лаборатория") ||
+                    userResponse.includes("координаты") && userResponse.includes("41") && userResponse.includes("2")) {
                     
-                    const messageHeader = document.createElement('div');
-                    messageHeader.classList.add('message-header');
+                    currentStep = 6;
+                    updateProgress(60);
                     
-                    const messageSender = document.createElement('span');
-                    messageSender.classList.add('message-sender');
-                    messageSender.textContent = 'Spijuniro Golubiro';
-                    
-                    const messageTime = document.createElement('span');
-                    messageTime.classList.add('message-time');
-                    const now = new Date();
-                    messageTime.textContent = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
-                    
-                    messageHeader.appendChild(messageSender);
-                    messageHeader.appendChild(messageTime);
-                    
-                    const messageContent = document.createElement('div');
-                    messageContent.classList.add('message-content');
-                    
-                    const messageText = document.createElement('p');
-                    messageText.textContent = "Отлично! Я открою для тебя удаленный доступ к ноутбуку Tralalelo. Тебе нужно найти в терминале информацию о его местонахождении.";
-                    messageContent.appendChild(messageText);
-                    
-                    // Создаем красивую кнопку как часть сообщения агента
-                    const laptopButtonContainer = document.createElement('div');
-                    laptopButtonContainer.style.marginTop = "12px";
-                    
-                    const laptopButton = document.createElement('button');
-                    laptopButton.textContent = "ПЕРЕЙТИ К НОУТБУКУ";
-                    laptopButton.style.backgroundColor = "var(--accent-color)";
-                    laptopButton.style.color = "var(--background-color)";
-                    laptopButton.style.border = "none";
-                    laptopButton.style.padding = "10px 20px";
-                    laptopButton.style.borderRadius = "5px";
-                    laptopButton.style.fontFamily = "'JetBrains Mono', monospace";
-                    laptopButton.style.fontWeight = "bold";
-                    laptopButton.style.fontSize = "0.9rem";
-                    laptopButton.style.cursor = "pointer";
-                    laptopButton.style.boxShadow = "0 4px 8px rgba(0, 0, 0, 0.3)";
-                    laptopButton.style.transition = "all 0.3s ease";
-                    laptopButton.style.width = "100%";
-                    laptopButton.style.display = "flex";
-                    laptopButton.style.justifyContent = "center";
-                    laptopButton.style.alignItems = "center";
-                    
-                    // Добавляем эффект наведения через класс
-                    const style = document.createElement('style');
-                    style.textContent = `
-                        .laptop-access-button:hover {
-                            transform: translateY(-2px);
-                            box-shadow: 0 6px 12px rgba(0, 179, 255, 0.4);
-                            background-color: var(--button-hover) !important;
-                        }
-                    `;
-                    document.head.appendChild(style);
-                    
-                    laptopButton.classList.add('laptop-access-button');
-                    
-                    // Обработчик клика на кнопку
-                    laptopButton.addEventListener('click', function() {
-                        // Открываем ноутбук в новом окне
-                        let laptopWindow = window.open('laptop.html', '_blank', 'width=1024,height=768');
-                        setTimeout(() => {
-                            agentResponse("Твоя задача - раздобыть координаты подводной лаборатории.");
-                            enableKeyboard();
-                            isProcessingResponse = false;
-                        }, 1000);
-                    });
-                    
-                    laptopButtonContainer.appendChild(laptopButton);
-                    messageContent.appendChild(laptopButtonContainer);
-                    
-                    agentMessageWithButton.appendChild(messageHeader);
-                    agentMessageWithButton.appendChild(messageContent);
-                    
-                    // Добавляем в чат
-                    chatContainer.appendChild(agentMessageWithButton);
-                    chatContainer.scrollTop = chatContainer.scrollHeight;
-                    
-                    isProcessingResponse = false;
-                }, 2000);
-            } else {
-                setTimeout(() => {
-                    agentResponse("Это неверный ответ. Попробуй еще раз.");
+                    agentResponse("Отличная работа! Это действительно то, что мы искали. Теперь мы знаем, где искать Tralalelo. Подводная лаборатория - это место, где Bobritto проводит свои эксперименты.");
                     
                     setTimeout(() => {
-                        showResponseButtons(['Ransomware (Программа-вымогатель)', 'Вирус', 'Троян', 'Червь']);
-                        isProcessingResponse = false;
-                    }, 1000);
-                }, 1000);
-            }
-        }
-        else if (currentStep === 5) {
-            // Проверка координат или ключевых слов о местоположении
-            if (userResponse.includes("41°24'12.2\"n") || 
-                userResponse.includes("2°10'26.5\"e") || 
-                userResponse.includes("подводная") && userResponse.includes("лаборатория") ||
-                userResponse.includes("координаты") && userResponse.includes("41") && userResponse.includes("2")) {
-                
-                currentStep = 6;
-                updateProgress(60);
-                
-                agentResponse("Отличная работа! Это действительно то, что мы искали. Теперь мы знаем, где искать Tralalelo. Подводная лаборатория - это место, где Bobritto проводит свои эксперименты.");
-                
-                setTimeout(() => {
-                    // Сообщение от Bobritto
-                    const bobMessage = document.createElement('div');
-                    bobMessage.classList.add('message', 'agent-message');
-                    
-                    const messageHeader = document.createElement('div');
-                    messageHeader.classList.add('message-header');
-                    
-                    const messageSender = document.createElement('span');
-                    messageSender.classList.add('message-sender');
-                    messageSender.textContent = 'Bobritto bandito';
-                    messageSender.style.color = '#ff9900';
-                    
-                    const messageTime = document.createElement('span');
-                    messageTime.classList.add('message-time');
-                    const now = new Date();
-                    messageTime.textContent = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
-                    
-                    messageHeader.appendChild(messageSender);
-                    messageHeader.appendChild(messageTime);
-                    
-                    const messageContent = document.createElement('div');
-                    messageContent.classList.add('message-content');
-                    
-                    const paragraph = document.createElement('p');
-                    paragraph.textContent = "Так-так-так, кто это тут взламывает мои системы? Впечатляюще, должен признать.";
-                    messageContent.appendChild(paragraph);
-                    
-                    bobMessage.appendChild(messageHeader);
-                    bobMessage.appendChild(messageContent);
-                    
-                    chatContainer.appendChild(bobMessage);
-                    chatContainer.scrollTop = chatContainer.scrollHeight;
-                    
-                    setTimeout(() => {
-                        const bobMessage2 = document.createElement('div');
-                        bobMessage2.classList.add('message', 'agent-message');
+                        // Сообщение от Bobritto
+                        const bobMessage = document.createElement('div');
+                        bobMessage.classList.add('message', 'agent-message');
                         
-                        const messageHeader2 = document.createElement('div');
-                        messageHeader2.classList.add('message-header');
+                        const messageHeader = document.createElement('div');
+                        messageHeader.classList.add('message-header');
                         
-                        const messageSender2 = document.createElement('span');
-                        messageSender2.classList.add('message-sender');
-                        messageSender2.textContent = 'Bobritto bandito';
-                        messageSender2.style.color = '#ff9900';
+                        const messageSender = document.createElement('span');
+                        messageSender.classList.add('message-sender');
+                        messageSender.textContent = 'Bobritto bandito';
+                        messageSender.style.color = '#ff9900';
                         
-                        const messageTime2 = document.createElement('span');
-                        messageTime2.classList.add('message-time');
-                        messageTime2.textContent = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
+                        const messageTime = document.createElement('span');
+                        messageTime.classList.add('message-time');
+                        const now = new Date();
+                        messageTime.textContent = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
                         
-                        messageHeader2.appendChild(messageSender2);
-                        messageHeader2.appendChild(messageTime2);
+                        messageHeader.appendChild(messageSender);
+                        messageHeader.appendChild(messageTime);
                         
-                        const messageContent2 = document.createElement('div');
-                        messageContent2.classList.add('message-content');
+                        const messageContent = document.createElement('div');
+                        messageContent.classList.add('message-content');
                         
-                        const paragraph2 = document.createElement('p');
-                        paragraph2.textContent = "У меня для вас предложение. Я знаю, что вы ищете Tralalelo. Он жив и в безопасности... пока что. Я готов сказать вам, как его освободить, но вы должны пообещать не использовать полученный ключ. Он открывает доступ к очень чувствительной информации.";
-                        messageContent2.appendChild(paragraph2);
+                        const paragraph = document.createElement('p');
+                        paragraph.textContent = "Так-так-так, кто это тут взламывает мои системы? Впечатляюще, должен признать.";
+                        messageContent.appendChild(paragraph);
                         
-                        bobMessage2.appendChild(messageHeader2);
-                        bobMessage2.appendChild(messageContent2);
+                        bobMessage.appendChild(messageHeader);
+                        bobMessage.appendChild(messageContent);
                         
-                        chatContainer.appendChild(bobMessage2);
+                        chatContainer.appendChild(bobMessage);
                         chatContainer.scrollTop = chatContainer.scrollHeight;
                         
                         setTimeout(() => {
-                            const bobMessage3 = document.createElement('div');
-                            bobMessage3.classList.add('message', 'agent-message');
+                            const bobMessage2 = document.createElement('div');
+                            bobMessage2.classList.add('message', 'agent-message');
                             
-                            const messageHeader3 = document.createElement('div');
-                            messageHeader3.classList.add('message-header');
+                            const messageHeader2 = document.createElement('div');
+                            messageHeader2.classList.add('message-header');
                             
-                            const messageSender3 = document.createElement('span');
-                            messageSender3.classList.add('message-sender');
-                            messageSender3.textContent = 'Bobritto bandito';
-                            messageSender3.style.color = '#ff9900';
+                            const messageSender2 = document.createElement('span');
+                            messageSender2.classList.add('message-sender');
+                            messageSender2.textContent = 'Bobritto bandito';
+                            messageSender2.style.color = '#ff9900';
                             
-                            const messageTime3 = document.createElement('span');
-                            messageTime3.classList.add('message-time');
-                            messageTime3.textContent = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
+                            const messageTime2 = document.createElement('span');
+                            messageTime2.classList.add('message-time');
+                            messageTime2.textContent = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
                             
-                            messageHeader3.appendChild(messageSender3);
-                            messageHeader3.appendChild(messageTime3);
+                            messageHeader2.appendChild(messageSender2);
+                            messageHeader2.appendChild(messageTime2);
                             
-                            const messageContent3 = document.createElement('div');
-                            messageContent3.classList.add('message-content');
+                            const messageContent2 = document.createElement('div');
+                            messageContent2.classList.add('message-content');
                             
-                            const paragraph3 = document.createElement('p');
-                            paragraph3.textContent = "Что скажете? Сделка?";
-                            messageContent3.appendChild(paragraph3);
+                            const paragraph2 = document.createElement('p');
+                            paragraph2.textContent = "У меня для вас предложение. Я знаю, что вы ищете Tralalelo. Он жив и в безопасности... пока что. Я готов сказать вам, как его освободить, но вы должны пообещать не использовать полученный ключ. Он открывает доступ к очень чувствительной информации.";
+                            messageContent2.appendChild(paragraph2);
                             
-                            bobMessage3.appendChild(messageHeader3);
-                            bobMessage3.appendChild(messageContent3);
+                            bobMessage2.appendChild(messageHeader2);
+                            bobMessage2.appendChild(messageContent2);
                             
-                            chatContainer.appendChild(bobMessage3);
+                            chatContainer.appendChild(bobMessage2);
                             chatContainer.scrollTop = chatContainer.scrollHeight;
                             
                             setTimeout(() => {
-                                showResponseButtons(['Согласиться на сделку', 'Отказаться от сделки']);
+                                const bobMessage3 = document.createElement('div');
+                                bobMessage3.classList.add('message', 'agent-message');
+                                
+                                const messageHeader3 = document.createElement('div');
+                                messageHeader3.classList.add('message-header');
+                                
+                                const messageSender3 = document.createElement('span');
+                                messageSender3.classList.add('message-sender');
+                                messageSender3.textContent = 'Bobritto bandito';
+                                messageSender3.style.color = '#ff9900';
+                                
+                                const messageTime3 = document.createElement('span');
+                                messageTime3.classList.add('message-time');
+                                messageTime3.textContent = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
+                                
+                                messageHeader3.appendChild(messageSender3);
+                                messageHeader3.appendChild(messageTime3);
+                                
+                                const messageContent3 = document.createElement('div');
+                                messageContent3.classList.add('message-content');
+                                
+                                const paragraph3 = document.createElement('p');
+                                paragraph3.textContent = "Что скажете? Сделка?";
+                                messageContent3.appendChild(paragraph3);
+                                
+                                bobMessage3.appendChild(messageHeader3);
+                                bobMessage3.appendChild(messageContent3);
+                                
+                                chatContainer.appendChild(bobMessage3);
+                                chatContainer.scrollTop = chatContainer.scrollHeight;
+                                
+                                setTimeout(() => {
+                                    showResponseButtons(['Согласиться на сделку', 'Отказаться от сделки']);
+                                    isProcessingResponse = false;
+                                }, 1000);
+                            }, 2000);
+                        }, 3000);
+                    }, 1000);
+                } else {
+                    agentResponse("Это не то что мне нужно. Попробуй еще раз.");
+                    isProcessingResponse = false;
+                }
+                break;
+            case 6:
+                // Реакция на решение пользователя о сделке с Bobritto
+                currentStep = 7;
+                updateProgress(90);
+                
+                if (userResponse.toLowerCase().includes("соглас") || userResponse.toLowerCase().includes("сделк")) {
+                    // Пользователь согласился на сделку
+                    setTimeout(() => {
+                        const bobMessage = document.createElement('div');
+                        bobMessage.classList.add('message', 'agent-message');
+                        
+                        const messageHeader = document.createElement('div');
+                        messageHeader.classList.add('message-header');
+                        
+                        const messageSender = document.createElement('span');
+                        messageSender.classList.add('message-sender');
+                        messageSender.textContent = 'Bobritto bandito';
+                        messageSender.style.color = '#ff9900';
+                        
+                        const messageTime = document.createElement('span');
+                        messageTime.classList.add('message-time');
+                        const now = new Date();
+                        messageTime.textContent = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
+                        
+                        messageHeader.appendChild(messageSender);
+                        messageHeader.appendChild(messageTime);
+                        
+                        const messageContent = document.createElement('div');
+                        messageContent.classList.add('message-content');
+                        
+                        const paragraph = document.createElement('p');
+                        paragraph.textContent = "Мудрое решение. Tralalelo находится в подводной лаборатории по координатам, которые вы обнаружили. Код для его освобождения: DUCK-BOBBY-POWER.";
+                        messageContent.appendChild(paragraph);
+                        
+                        const paragraph2 = document.createElement('p');
+                        paragraph2.textContent = "Не пытайтесь обмануть меня. Я буду следить.";
+                        messageContent.appendChild(paragraph2);
+                        
+                        bobMessage.appendChild(messageHeader);
+                        bobMessage.appendChild(messageContent);
+                        
+                        chatContainer.appendChild(bobMessage);
+                        chatContainer.scrollTop = chatContainer.scrollHeight;
+                        
+                        setTimeout(() => {
+                            agentResponse("[приватно] Нам пришлось пойти на компромисс, но главное - мы знаем, где Tralalelo и как его освободить. Немедленно высылаю спасательную команду.");
+                            
+                            setTimeout(() => {
+                                updateProgress(100);
+                                agentResponse("Миссия выполнена успешно! Tralalelo спасен и передает тебе благодарность за помощь.");
                                 isProcessingResponse = false;
-                            }, 1000);
+                            }, 3000);
                         }, 2000);
-                    }, 3000);
-                }, 1000);
-            } else {
-                agentResponse("Это не то что мне нужно. Попробуй еще раз.");
+                    }, 1000);
+                } else {
+                    // Пользователь отказался от сделки
+                    setTimeout(() => {
+                        const bobMessage = document.createElement('div');
+                        bobMessage.classList.add('message', 'agent-message');
+                        
+                        const messageHeader = document.createElement('div');
+                        messageHeader.classList.add('message-header');
+                        
+                        const messageSender = document.createElement('span');
+                        messageSender.classList.add('message-sender');
+                        messageSender.textContent = 'Bobritto bandito';
+                        messageSender.style.color = '#ff9900';
+                        
+                        const messageTime = document.createElement('span');
+                        messageTime.classList.add('message-time');
+                        const now = new Date();
+                        messageTime.textContent = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
+                        
+                        messageHeader.appendChild(messageSender);
+                        messageHeader.appendChild(messageTime);
+                        
+                        const messageContent = document.createElement('div');
+                        messageContent.classList.add('message-content');
+                        
+                        const paragraph = document.createElement('p');
+                        paragraph.textContent = "Ну, как хочешь, мы с тобой еще встретимся... Я запомню это!";
+                        messageContent.appendChild(paragraph);
+                        
+                        bobMessage.appendChild(messageHeader);
+                        bobMessage.appendChild(messageContent);
+                        
+                        chatContainer.appendChild(bobMessage);
+                        chatContainer.scrollTop = chatContainer.scrollHeight;
+                        
+                        setTimeout(() => {
+                            agentResponse("Хм, ну с ним мы разберемся позже, главное что у нас есть координаты агента и мы уже отправили группу спасения за ним.");
+                            
+                            setTimeout(() => {
+                                updateProgress(100);
+                                agentResponse("Миссия выполнена успешно! Tralalelo спасен и передает вам благодарность за помощь. Bobritto арестован и предстанет перед судом.");
+                                isProcessingResponse = false;
+                            }, 3000);
+                        }, 2000);
+                    }, 1000);
+                }
+                break;
+            case 19: // Предложение Bobritto о сделке
+                if (response === "Согласиться на сделку") {
+                    agentResponse("Обработка ответа...");
+                    setTimeout(() => {
+                        updateProgress(75);
+                        currentStep = 20;
+                        addHint("Получен код освобождения: DUCK-BOBBY-POWER");
+                        
+                        // Меняем агента на Bobritto
+                        document.getElementById('agent-avatar').src = 'golubini.gpej';
+                        document.querySelector('.agent-info h3').textContent = 'Bobrito bandito';
+                        
+                        // Сообщение от Bobritto
+                        createMessage("Мудрое решение. Tralalelo находится в подводной лаборатории по координатам, которые вы обнаружили. Код для его освобождения: DUCK-BOBBY-POWER.", true);
+                        
+                        setTimeout(() => {
+                            createMessage("Не пытайтесь обмануть меня. Я буду следить.", true);
+                            
+                            setTimeout(() => {
+                                // Возвращаем агента Spijuniro
+                                document.getElementById('agent-avatar').src = 'golubini.gpej';
+                                document.querySelector('.agent-info h3').textContent = 'Spijuniro Golubiro';
+                                
+                                // Приватное сообщение от Spijuniro
+                                createMessage("[приватно] Нам пришлось пойти на компромисс, но главное - мы знаем, где Tralalelo и как его освободить. Немедленно высылаю спасательную команду.", true);
+                                
+                                // Переходим к финальной фазе
+                                setTimeout(() => {
+                                    currentStep = 30; // Финальный шаг
+                                    displayFinalMessage();
+                                    isProcessingResponse = false;
+                                }, 3000);
+                            }, 3000);
+                        }, 3000);
+                    }, 2000);
+                } else if (response === "Отказаться от сделки") {
+                    agentResponse("Обработка ответа...");
+                    setTimeout(() => {
+                        updateProgress(75);
+                        currentStep = 21;
+                        
+                        // Меняем агента на Bobritto
+                        document.getElementById('agent-avatar').src = 'golubini.gpej';
+                        document.querySelector('.agent-info h3').textContent = 'Bobrito bandito';
+                        
+                        // Сообщение от Bobritto
+                        createMessage("Ну, как хочешь, мы с тобой еще встретимся... Я запомню это!", true);
+                        
+                        setTimeout(() => {
+                            // Возвращаем агента Spijuniro
+                            document.getElementById('agent-avatar').src = 'golubini.gpej';
+                            document.querySelector('.agent-info h3').textContent = 'Spijuniro Golubiro';
+                            
+                            // Проверяем, есть ли у пользователя уже координаты Tralalelo
+                            if (hints.some(hint => hint.includes('координаты') || hint.includes('местоположение'))) {
+                                // Если координаты уже известны
+                                createMessage("Хм, ну с ним мы разберемся позже, главное что у нас есть координаты агента и мы уже отправили группу спасения за ним.", true);
+                                
+                                // Добавляем подсказку с кодом
+                                addHint("Код для системы безопасности лаборатории: DUCK-BOBBY-POWER");
+                                
+                                setTimeout(() => {
+                                    // Переходим к финальной фазе
+                                    currentStep = 30; // Финальный шаг
+                                    displayFinalMessage();
+                                    isProcessingResponse = false;
+                                }, 3000);
+                            } else {
+                                // Стандартный ответ, если координаты неизвестны
+                                createMessage("Не беспокойтесь! Мы использовали ваше подключение, чтобы отследить местоположение Bobritto. Наша команда уже в пути. А ключ нам пригодится, чтобы получить доступ к системам безопасности и освободить Tralalelo.", true);
+                                
+                                // Переходим к финальной фазе
+                                setTimeout(() => {
+                                    currentStep = 30; // Финальный шаг
+                                    displayFinalMessage();
+                                    isProcessingResponse = false;
+                                }, 3000);
+                            }
+                        }, 3000);
+                    }, 2000);
+                }
+                break;
+            default:
                 isProcessingResponse = false;
-            }
-        }
-        else if (currentStep === 6) {
-            // Реакция на решение пользователя о сделке с Bobritto
-            currentStep = 7;
-            updateProgress(90);
-            
-            if (userResponse.toLowerCase().includes("соглас") || userResponse.toLowerCase().includes("сделк")) {
-                // Пользователь согласился на сделку
-                setTimeout(() => {
-                    const bobMessage = document.createElement('div');
-                    bobMessage.classList.add('message', 'agent-message');
-                    
-                    const messageHeader = document.createElement('div');
-                    messageHeader.classList.add('message-header');
-                    
-                    const messageSender = document.createElement('span');
-                    messageSender.classList.add('message-sender');
-                    messageSender.textContent = 'Bobritto bandito';
-                    messageSender.style.color = '#ff9900';
-                    
-                    const messageTime = document.createElement('span');
-                    messageTime.classList.add('message-time');
-                    const now = new Date();
-                    messageTime.textContent = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
-                    
-                    messageHeader.appendChild(messageSender);
-                    messageHeader.appendChild(messageTime);
-                    
-                    const messageContent = document.createElement('div');
-                    messageContent.classList.add('message-content');
-                    
-                    const paragraph = document.createElement('p');
-                    paragraph.textContent = "Мудрое решение. Tralalelo находится в подводной лаборатории по координатам, которые вы обнаружили. Код для его освобождения: DUCK-BOBBY-POWER.";
-                    messageContent.appendChild(paragraph);
-                    
-                    const paragraph2 = document.createElement('p');
-                    paragraph2.textContent = "Не пытайтесь обмануть меня. Я буду следить.";
-                    messageContent.appendChild(paragraph2);
-                    
-                    bobMessage.appendChild(messageHeader);
-                    bobMessage.appendChild(messageContent);
-                    
-                    chatContainer.appendChild(bobMessage);
-                    chatContainer.scrollTop = chatContainer.scrollHeight;
-                    
-                    setTimeout(() => {
-                        agentResponse("[приватно] Нам пришлось пойти на компромисс, но главное - мы знаем, где Tralalelo и как его освободить. Немедленно высылаю спасательную команду.");
-                        
-                        setTimeout(() => {
-                            updateProgress(100);
-                            agentResponse("Миссия выполнена успешно! Tralalelo спасен и передает тебе благодарность за помощь.");
-                            isProcessingResponse = false;
-                        }, 3000);
-                    }, 2000);
-                }, 1000);
-            } else {
-                // Пользователь отказался от сделки
-                setTimeout(() => {
-                    const bobMessage = document.createElement('div');
-                    bobMessage.classList.add('message', 'agent-message');
-                    
-                    const messageHeader = document.createElement('div');
-                    messageHeader.classList.add('message-header');
-                    
-                    const messageSender = document.createElement('span');
-                    messageSender.classList.add('message-sender');
-                    messageSender.textContent = 'Bobritto bandito';
-                    messageSender.style.color = '#ff9900';
-                    
-                    const messageTime = document.createElement('span');
-                    messageTime.classList.add('message-time');
-                    const now = new Date();
-                    messageTime.textContent = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
-                    
-                    messageHeader.appendChild(messageSender);
-                    messageHeader.appendChild(messageTime);
-                    
-                    const messageContent = document.createElement('div');
-                    messageContent.classList.add('message-content');
-                    
-                    const paragraph = document.createElement('p');
-                    paragraph.textContent = "Очень жаль. Вы пожалеете об этом решении.";
-                    messageContent.appendChild(paragraph);
-                    
-                    bobMessage.appendChild(messageHeader);
-                    bobMessage.appendChild(messageContent);
-                    
-                    chatContainer.appendChild(bobMessage);
-                    chatContainer.scrollTop = chatContainer.scrollHeight;
-                    
-                    setTimeout(() => {
-                        agentResponse("Не беспокойтесь! Мы использовали ваше подключение, чтобы отследить местоположение Bobritto. Наша команда уже в пути. А ключ нам пригодится, чтобы получить доступ к системам безопасности и освободить Tralalelo.");
-                        
-                        setTimeout(() => {
-                            updateProgress(100);
-                            agentResponse("Миссия выполнена успешно! Tralalelo спасен и передает вам благодарность за помощь. Bobritto арестован и предстанет перед судом.");
-                            isProcessingResponse = false;
-                        }, 3000);
-                    }, 2000);
-                }, 1000);
-            }
-        }
-        else {
-            isProcessingResponse = false;
         }
     }
     
@@ -918,4 +997,63 @@ document.addEventListener('DOMContentLoaded', () => {
     document.addEventListener('visibilitychange', function() {
         // Пустой обработчик или можно удалить совсем
     });
+
+    // Функция для отображения финального сообщения
+    function displayFinalMessage() {
+        updateProgress(100);
+        setTimeout(() => {
+            createMessage("Миссия выполнена успешно! Tralalelo спасен и передает тебе благодарность за помощь.", true);
+            
+            setTimeout(() => {
+                createMessage("Благодаря твоим действиям мы смогли не только спасти нашего агента, но и получить ценные данные о деятельности кибер-преступной группировки.", true);
+                
+                setTimeout(() => {
+                    createMessage("Тебе присваивается звание почетного агента кибер-безопасности. Мы обязательно обратимся к тебе снова, если возникнет необходимость.", true);
+                    
+                    // Показываем кнопку для возврата на главную
+                    setTimeout(() => {
+                        const finishButtonContainer = document.createElement('div');
+                        finishButtonContainer.classList.add('finish-button-container');
+                        finishButtonContainer.style.textAlign = 'center';
+                        finishButtonContainer.style.marginTop = '20px';
+                        
+                        const finishButton = document.createElement('button');
+                        finishButton.textContent = "ЗАВЕРШИТЬ МИССИЮ";
+                        finishButton.classList.add('finish-button');
+                        finishButton.style.backgroundColor = "var(--accent-color)";
+                        finishButton.style.color = "var(--background-color)";
+                        finishButton.style.border = "none";
+                        finishButton.style.padding = "12px 24px";
+                        finishButton.style.borderRadius = "5px";
+                        finishButton.style.fontFamily = "'JetBrains Mono', monospace";
+                        finishButton.style.fontWeight = "bold";
+                        finishButton.style.fontSize = "1rem";
+                        finishButton.style.cursor = "pointer";
+                        finishButton.style.boxShadow = "0 4px 8px rgba(0, 0, 0, 0.3)";
+                        finishButton.style.transition = "all 0.3s ease";
+                        
+                        finishButton.addEventListener('mouseover', function() {
+                            this.style.transform = "translateY(-2px)";
+                            this.style.boxShadow = "0 6px 12px rgba(0, 179, 255, 0.4)";
+                            this.style.backgroundColor = "var(--button-hover)";
+                        });
+                        
+                        finishButton.addEventListener('mouseout', function() {
+                            this.style.transform = "translateY(0)";
+                            this.style.boxShadow = "0 4px 8px rgba(0, 0, 0, 0.3)";
+                            this.style.backgroundColor = "var(--accent-color)";
+                        });
+                        
+                        finishButton.addEventListener('click', function() {
+                            window.location.href = "index.html";
+                        });
+                        
+                        finishButtonContainer.appendChild(finishButton);
+                        chatContainer.appendChild(finishButtonContainer);
+                        chatContainer.scrollTop = chatContainer.scrollHeight;
+                    }, 2000);
+                }, 3000);
+            }, 3000);
+        }, 1000);
+    }
 }); 
