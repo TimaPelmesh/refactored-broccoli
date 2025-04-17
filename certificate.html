@@ -10,6 +10,49 @@
     <link rel="stylesheet" href="certificate.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        .github-notice {
+            background-color: rgba(0, 179, 255, 0.1);
+            border: 2px solid var(--accent-color);
+            border-radius: 10px;
+            padding: 30px;
+            margin: 40px auto;
+            text-align: center;
+            max-width: 800px;
+        }
+        
+        .github-notice h3 {
+            color: var(--accent-color);
+            margin-top: 0;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+        }
+        
+        .github-notice p {
+            margin-bottom: 25px;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+        
+        .github-button {
+            display: inline-block;
+            background-color: var(--accent-color);
+            color: var(--background-color);
+            padding: 15px 30px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+        }
+        
+        .github-button:hover {
+            background-color: var(--button-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 179, 255, 0.4);
+        }
+    </style>
 </head>
 <body>
     <div class="container">
@@ -26,64 +69,31 @@
         </header>
         
         <main>
-            <div class="certificate-container">
-                <div class="certificate-form">
-                    <h2>ПОЛУЧЕНИЕ СЕРТИФИКАТА</h2>
-                    <p>Введите ваше имя для создания персонального сертификата:</p>
-                    <div class="input-group">
-                        <input type="text" id="user-name" placeholder="Ваше имя и фамилия" autocomplete="off">
-                        <button id="generate-button" class="primary-button">
-                            <i class="fas fa-certificate"></i> СОЗДАТЬ
-                        </button>
-                    </div>
-                </div>
-                
-                <div class="certificate-preview" id="certificate-preview">
-                    <div class="certificate" id="certificate">
-                        <div class="certificate-header">
-                            <div class="certificate-logo">
-                                <i class="fas fa-shield-alt"></i>
-                            </div>
-                            <div class="certificate-title">
-                                <h2>СЕРТИФИКАТ</h2>
-                                <h3>ПОЧЕТНОГО АГЕНТА КИБЕРБЕЗОПАСНОСТИ</h3>
-                            </div>
-                        </div>
-                        
-                        <div class="certificate-body">
-                            <p class="certificate-text">Настоящим подтверждается, что</p>
-                            <p class="certificate-name" id="certificate-name">________________________</p>
-                            <p class="certificate-text">успешно выполнил(а) секретную миссию по спасению агента Tralalelo и предотвращению кибератаки.</p>
-                            <p class="certificate-text">Награждается званием "Почетного Агента Кибербезопасности" и всеми привилегиями, соответствующими данному званию.</p>
-                        </div>
-                        
-                        <div class="certificate-footer">
-                            <div class="certificate-date">
-                                <p id="certificate-date">Дата: </p>
-                            </div>
-                            <div class="certificate-signature">
-                                <p>Spijuniro</p>
-                                <p>Руководитель миссии</p>
-                            </div>
-                        </div>
-                        
-                        <div class="certificate-stamp">
-                            <div class="stamp-inner">
-                                <p>КИБЕРКВЕСТ</p>
-                                <p>СТРОГО СЕКРЕТНО</p>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <button id="download-button" class="secondary-button" disabled>
-                        <i class="fas fa-download"></i> СКАЧАТЬ СЕРТИФИКАТ
-                    </button>
-                </div>
+            <!-- Уведомление о Google форме -->
+            <div class="github-notice">
+                <h3>ПОЛУЧИТЕ ВАШ СЕРТИФИКАТ</h3>
+                <p>Вы успешно прошли киберквест! Чтобы получить персональный сертификат, пожалуйста, заполните форму по ссылке ниже:</p>
+                <a href="https://docs.google.com/forms/d/e/1FAIpQLSezeqD9j9keHw5bdkyr5uNSpQIVI23DXH-gIv8yxlNK4lICHg/viewform?usp=dialog" target="_blank" class="github-button">
+                    <i class="fas fa-external-link-alt"></i> ЗАПОЛНИТЬ ФОРМУ ДЛЯ ПОЛУЧЕНИЯ СЕРТИФИКАТА
+                </a>
+                <p style="margin-top: 25px; font-size: 1rem;">После заполнения формы вы получите доступ к вашему персональному сертификату.</p>
             </div>
         </main>
     </div>
     
-    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
-    <script src="certificate.js"></script>
+    <script>
+        // Обновление времени
+        function updateTime() {
+            const now = new Date();
+            let hours = now.getHours().toString().padStart(2, '0');
+            let minutes = now.getMinutes().toString().padStart(2, '0');
+            let seconds = now.getSeconds().toString().padStart(2, '0');
+            document.getElementById('current-time').textContent = `${hours}:${minutes}:${seconds}`;
+        }
+        
+        // Запускаем обновление времени
+        updateTime();
+        setInterval(updateTime, 1000);
+    </script>
 </body>
 </html> 
