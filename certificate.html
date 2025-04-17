@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>Сертификат - Хакерский Веб-Квест</title>
+    <link rel="stylesheet" href="certificate.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-left">
+                <a href="quest.html" class="back-button"><i class="fas fa-chevron-left"></i> ВЕРНУТЬСЯ К КВЕСТУ</a>
+            </div>
+            <div class="header-center">
+                <h1>КИБЕР<span class="accent">СЕРТИФИКАТ</span></h1>
+            </div>
+            <div class="header-right">
+                <div class="time-display" id="current-time">00:00:00</div>
+            </div>
+        </header>
+        
+        <main>
+            <div class="certificate-container">
+                <div class="certificate-form">
+                    <h2>ПОЛУЧЕНИЕ СЕРТИФИКАТА</h2>
+                    <p>Введите ваше имя для создания персонального сертификата:</p>
+                    <div class="input-group">
+                        <input type="text" id="user-name" placeholder="Ваше имя и фамилия" autocomplete="off">
+                        <button id="generate-button" class="primary-button">
+                            <i class="fas fa-certificate"></i> СОЗДАТЬ
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="certificate-preview" id="certificate-preview">
+                    <div class="certificate" id="certificate">
+                        <div class="certificate-header">
+                            <div class="certificate-logo">
+                                <i class="fas fa-shield-alt"></i>
+                            </div>
+                            <div class="certificate-title">
+                                <h2>СЕРТИФИКАТ</h2>
+                                <h3>ПОЧЕТНОГО АГЕНТА КИБЕРБЕЗОПАСНОСТИ</h3>
+                            </div>
+                        </div>
+                        
+                        <div class="certificate-body">
+                            <p class="certificate-text">Настоящим подтверждается, что</p>
+                            <p class="certificate-name" id="certificate-name">________________________</p>
+                            <p class="certificate-text">успешно выполнил(а) секретную миссию по спасению агента Tralalelo и предотвращению кибератаки.</p>
+                            <p class="certificate-text">Награждается званием "Почетного Агента Кибербезопасности" и всеми привилегиями, соответствующими данному званию.</p>
+                        </div>
+                        
+                        <div class="certificate-footer">
+                            <div class="certificate-date">
+                                <p id="certificate-date">Дата: </p>
+                            </div>
+                            <div class="certificate-signature">
+                                <p>Spijuniro</p>
+                                <p>Руководитель миссии</p>
+                            </div>
+                        </div>
+                        
+                        <div class="certificate-stamp">
+                            <div class="stamp-inner">
+                                <p>КИБЕРКВЕСТ</p>
+                                <p>СТРОГО СЕКРЕТНО</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button id="download-button" class="secondary-button" disabled>
+                        <i class="fas fa-download"></i> СКАЧАТЬ СЕРТИФИКАТ
+                    </button>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    <script src="certificate.js"></script>
+</body>
+</html> 
